@@ -13,12 +13,13 @@ type ActionSequence struct {
 	Actions              []actions.Action `xml:",any"`
 }
 
+// TODO: these need to handle multiple instances of action sequences.
 type ConditionalActionSet struct {
 	xml.Name         `xml:"ConditionalActions"`
-	OnConnect        *ActionSequence `xml:"OnConnect,omitempty"`
-	HasFlags         *ActionSequence `xml:"HasFlags,omitempty"`
-	Instantly        *ActionSequence `xml:"Instantly,omitempty"`
-	OnAdminGained    *ActionSequence `xml:"OnAdminGained,omitempty"`
-	DoesNotHaveFlags *ActionSequence `xml:"DoesNotHaveFlags,omitempty"`
-	OnDisconnect     *ActionSequence `xml:"OnDisconnect,omitempty"`
+	OnConnect        []ActionSequence `xml:"OnConnect,omitempty"`
+	HasFlags         []ActionSequence `xml:"HasFlags,omitempty"`
+	Instantly        []ActionSequence `xml:"Instantly,omitempty"`
+	OnAdminGained    []ActionSequence `xml:"OnAdminGained,omitempty"`
+	DoesNotHaveFlags []ActionSequence `xml:"DoesNotHaveFlags,omitempty"`
+	OnDisconnect     []ActionSequence `xml:"OnDisconnect,omitempty"`
 }

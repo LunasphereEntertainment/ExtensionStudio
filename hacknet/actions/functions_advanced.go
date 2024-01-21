@@ -103,3 +103,17 @@ type ChangeAlertIcon struct {
 func (a ChangeAlertIcon) TagName() string {
 	return "ChangeAlertIcon"
 }
+
+type NetmapSortMethod string
+
+const (
+	Scatter      NetmapSortMethod = "scatter"
+	Grid         NetmapSortMethod = "grid"
+	SequenceGrid NetmapSortMethod = "seqgrid"
+	Chaos        NetmapSortMethod = "CHAOS"
+)
+
+type ChangeNetmapSortMethod struct {
+	*DelayableAction
+	Method NetmapSortMethod `xml:"Method,attr"`
+}

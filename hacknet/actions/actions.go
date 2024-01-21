@@ -2,36 +2,6 @@ package actions
 
 import (
 	"encoding/xml"
-	"reflect"
-)
-
-var (
-	ActionTypes = map[string]IAction{
-		RunFunction{}.TagName():                RunFunction{},
-		LoadMission{}.TagName():                LoadMission{},
-		AddAsset{}.TagName():                   AddAsset{},
-		CopyAsset{}.TagName():                  CopyAsset{},
-		AddMissionToHubServer{}.TagName():      AddMissionToHubServer{},
-		RemoveMissionFromHubServer{}.TagName(): RemoveMissionFromHubServer{},
-		AddThreadToMissionBoard{}.TagName():    AddThreadToMissionBoard{},
-		AddIRCMessage{}.TagName():              AddIRCMessage{},
-		CrashComputer{}.TagName():              CrashComputer{},
-		DeleteFile{}.TagName():                 DeleteFile{},
-		AddConditionalActions{}.TagName():      AddConditionalActions{},
-		SaveGame{}.TagName():                   SaveGame{},
-		LaunchHackScript{}.TagName():           LaunchHackScript{},
-		SwitchToTheme{}.TagName():              SwitchToTheme{},
-		StartScreenBleedEffect{}.TagName():     StartScreenBleedEffect{},
-		CancelScreenBleedEffect{}.TagName():    CancelScreenBleedEffect{},
-		AppendToFile{}.TagName():               AppendToFile{},
-		KillExe{}.TagName():                    KillExe{},
-		HideNode{}.TagName():                   HideNode{},
-		GivePlayerUserAccount{}.TagName():      GivePlayerUserAccount{},
-		ChangeIP{}.TagName():                   ChangeIP{},
-		HideAllNodes{}.TagName():               HideAllNodes{},
-		ShowNode{}.TagName():                   ShowNode{},
-		SetLock{}.TagName():                    SetLock{},
-	}
 )
 
 type IAction interface {
@@ -43,14 +13,160 @@ type Action struct {
 }
 
 func (a *Action) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-	for tagName, elem := range ActionTypes {
-		if start.Name.Local == tagName {
-			val := reflect.New(reflect.TypeOf(elem)).Elem().Interface()
-			if err := d.DecodeElement(&val, &start); err != nil {
-				return err
-			}
-			a.Value = val.(IAction)
-			break
+	switch start.Name.Local {
+	case "RunFunction":
+		val := RunFunction{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "LoadMission":
+		val := LoadMission{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "AddAsset":
+		val := AddAsset{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "CopyAsset":
+		val := CopyAsset{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "AddMissionToHubServer":
+		val := AddMissionToHubServer{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "RemoveMissionFromHubServer":
+		val := RemoveMissionFromHubServer{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "AddThreadToMissionBoard":
+		val := AddThreadToMissionBoard{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "AddIRCMessage":
+		val := AddIRCMessage{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "CrashComputer":
+		val := CrashComputer{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "DeleteFile":
+		val := DeleteFile{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "AddConditionalActions":
+		val := AddConditionalActions{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "SaveGame":
+		val := SaveGame{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "LaunchHackScript":
+		val := LaunchHackScript{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "SwitchToTheme":
+		val := SwitchToTheme{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "StartScreenBleedEffect":
+		val := StartScreenBleedEffect{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "CancelScreenBleedEffect":
+		val := CancelScreenBleedEffect{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "AppendToFile":
+		val := AppendToFile{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "KillExe":
+		val := KillExe{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "HideNode":
+		val := HideNode{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "GivePlayerUserAccount":
+		val := GivePlayerUserAccount{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "ChangeIP":
+		val := ChangeIP{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "HideAllNodes":
+		val := HideAllNodes{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "ShowNode":
+		val := ShowNode{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "SetLock":
+		val := SetLock{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+		a.Value = val
+	case "ChangeAlertIcon":
+		val := ChangeAlertIcon{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
+		}
+	case "ChangeNetmapSortMethod":
+		val := ChangeNetmapSortMethod{}
+		if err := d.DecodeElement(&val, &start); err != nil {
+			return err
 		}
 	}
 

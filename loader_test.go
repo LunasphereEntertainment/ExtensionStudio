@@ -7,8 +7,12 @@ import (
 	"testing"
 )
 
+const (
+	basePath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension"
+)
+
 func TestLoadExtension(t *testing.T) {
-	ext, err := LoadXML[hacknet.ExtensionInfo]("E:\\SteamLibrary\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension\\ExtensionInfo.xml")
+	ext, err := LoadXML[hacknet.ExtensionInfo](basePath + "\\ExtensionInfo.xml")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -26,7 +30,7 @@ func TestLoadExtension(t *testing.T) {
 }
 
 func TestLoadMission(t *testing.T) {
-	mission, err := LoadXML[hacknet.Mission]("E:\\SteamLibrary\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension\\Missions\\ExampleMission.xml")
+	mission, err := LoadXML[hacknet.Mission](basePath + "\\Missions\\ExampleMission.xml")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -69,47 +73,52 @@ func TestLoadMission(t *testing.T) {
 }
 
 func TestLoadActionSet(t *testing.T) {
-	actions, err := LoadXML[hacknet.ConditionalActionSet]("E:\\SteamLibrary\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension\\Actions\\ExampleConditionalActionSet.xml")
+	actions, err := LoadXML[hacknet.ConditionalActionSet](basePath + "\\Actions\\ExampleConditionalActionSet.xml")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
 
 	assert.NotNil(t, actions.OnConnect)
-	assert.True(t, *actions.OnConnect.NeedsMissionComplete)
-	assert.Len(t, actions.OnConnect.RequiredFlags, 1)
-	assert.Equal(t, "decypher", actions.OnConnect.RequiredFlags[0])
-	assert.IsType(t, actions2.AddIRCMessage{}, actions.OnConnect.Actions[0].Value)
+	assert.Len(t, actions.OnConnect, 1)
+	assert.True(t, *(actions.OnConnect[0].NeedsMissionComplete))
+	assert.Len(t, actions.OnConnect[0].RequiredFlags, 1)
+	assert.Equal(t, "decypher", actions.OnConnect[0].RequiredFlags[0])
+	assert.IsType(t, actions2.AddIRCMessage{}, actions.OnConnect[0].Actions[0].Value)
 
 	assert.NotNil(t, actions.HasFlags)
-	assert.Len(t, actions.HasFlags.RequiredFlags, 2)
-	assert.Equal(t, "decypher", actions.HasFlags.RequiredFlags[0])
-	assert.Equal(t, "otherFlag", actions.HasFlags.RequiredFlags[1])
+	assert.Len(t, actions.HasFlags, 1)
+	assert.Len(t, actions.HasFlags[0].RequiredFlags, 2)
+	assert.Equal(t, "decypher", actions.HasFlags[0].RequiredFlags[0])
+	assert.Equal(t, "otherFlag", actions.HasFlags[0].RequiredFlags[1])
 
 	assert.NotNil(t, actions.OnAdminGained)
-	assert.NotNil(t, actions.OnAdminGained.Target)
-	assert.Equal(t, "advExamplePC", *actions.OnAdminGained.Target)
+	assert.Len(t, actions.OnAdminGained, 1)
+	assert.NotNil(t, actions.OnAdminGained[0].Target)
+	assert.Equal(t, "advExamplePC", *actions.OnAdminGained[0].Target)
 
 	assert.NotNil(t, actions.Instantly)
 
 	assert.NotNil(t, actions.DoesNotHaveFlags)
-	assert.Len(t, actions.DoesNotHaveFlags.Flags, 2)
-	assert.Equal(t, "SomeFlag", actions.DoesNotHaveFlags.Flags[0])
-	assert.Equal(t, "MoreFlags", actions.DoesNotHaveFlags.Flags[1])
+	assert.Len(t, actions.DoesNotHaveFlags, 1)
+	assert.Len(t, actions.DoesNotHaveFlags[0].Flags, 2)
+	assert.Equal(t, "SomeFlag", actions.DoesNotHaveFlags[0].Flags[0])
+	assert.Equal(t, "MoreFlags", actions.DoesNotHaveFlags[0].Flags[1])
 
 	assert.NotNil(t, actions.OnDisconnect)
 }
 
 func TestLoadTestLoadActionSet2(t *testing.T) {
-	actions, err := LoadXML[hacknet.ConditionalActionSet]("E:\\SteamLibrary\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension\\Actions\\HackerScriptActions.xml")
+	actions, err := LoadXML[hacknet.ConditionalActionSet](basePath + "\\Actions\\HackerScriptActions.xml")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
 	}
 
-	assert.Len(t, actions.OnConnect.Actions, 1)
-	assert.IsType(t, actions2.LaunchHackScript{}, actions.OnConnect.Actions[0].Value)
-	hackScript := actions.OnConnect.Actions[0].Value.(actions2.LaunchHackScript)
+	assert.Len(t, actions.OnConnect, 2)
+	assert.Len(t, actions.OnConnect[0].Actions, 1)
+	assert.IsType(t, actions2.LaunchHackScript{}, actions.OnConnect[0].Actions[0].Value)
+	hackScript := actions.OnConnect[0].Actions[0].Value.(actions2.LaunchHackScript)
 	assert.Equal(t, "HackerScripts/AllyHack.txt", hackScript.Script)
 	assert.Equal(t, "advExamplePC", *hackScript.DelayHost)
 	assert.Equal(t, 2.5, hackScript.Delay)
@@ -119,7 +128,7 @@ func TestLoadTestLoadActionSet2(t *testing.T) {
 }
 
 func TestLoadFaction(t *testing.T) {
-	faction, err := LoadXML[hacknet.Faction]("E:\\SteamLibrary\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension\\Factions\\ExampleFaction.xml")
+	faction, err := LoadXML[hacknet.Faction](basePath + "\\Factions\\ExampleFaction.xml")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -137,7 +146,7 @@ func TestLoadFaction(t *testing.T) {
 }
 
 func TestLoadTheme(t *testing.T) {
-	theme, err := LoadXML[hacknet.Theme]("E:\\SteamLibrary\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension\\Themes\\ExampleTheme.xml")
+	theme, err := LoadXML[hacknet.Theme](basePath + "\\Themes\\ExampleTheme.xml")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
