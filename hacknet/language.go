@@ -1,4 +1,4 @@
-package model
+package hacknet
 
 type Language string
 

@@ -1,15 +1,4 @@
-package model
-
-import (
-	"encoding/xml"
-)
-
-type Email struct {
-	Sender      string           `xml:"sender" json:"sender"`
-	Subject     string           `xml:"subject" json:"subject"`
-	Body        string           `xml:"body" json:"body"`
-	Attachments EmailAttachments `xml:"attachments" json:"attachments"`
-}
+package hacknet
 
 type AttachmentType string
 
@@ -19,9 +8,40 @@ const (
 	Account AttachmentType = "account"
 )
 
-type EmailAttachments []interface{}
+type EmailAttachment interface {
+	Type() AttachmentType
+}
 
-func (a *EmailAttachments) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+type NoteAttachment struct {
+	Title   string `xml:"title,attr"`
+	Content string `xml:",chardata"`
+}
+
+func (n *NoteAttachment) Type() AttachmentType {
+	return Note
+}
+
+type LinkAttachment struct {
+	Computer string `xml:"comp,attr" json:"computer"`
+}
+
+func (l *LinkAttachment) Type() AttachmentType {
+	return Link
+}
+
+type AccountAttachment struct {
+	Computer string `xml:"comp,attr" json:"computer"`
+	Username string `xml:"user,attr" json:"username"`
+	Password string `xml:"pass,attr" json:"password"`
+}
+
+func (a *AccountAttachment) Type() AttachmentType {
+	return Account
+}
+
+//type EmailAttachments []interface{}
+
+/*func (a *EmailAttachments) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	partial := new([]EmailAttachment)
 	err := d.DecodeElement(partial, &start)
 	if err != nil {
@@ -50,18 +70,18 @@ func (a *EmailAttachments) UnmarshalXML(d *xml.Decoder, start xml.StartElement) 
 	}
 
 	return err
-}
+}*/
 
-type EmailAttachment struct {
+/*type EmailAttachment struct {
 	Type AttachmentType `xml:"-/"`
 	//Title   string         `xml:"title,attr"`
 	//Content string         `xml:",chardata"`
 	//Target  string         `xml:"target,attr"`
 	//User    string         `xml:"user,attr"`
 	//Pass    string         `xml:"pass,attr"`
-}
+}*/
 
-type EmailNote struct {
+/*type EmailNote struct {
 	xml.Name `xml:"note"`
 	*EmailAttachment
 	Title   string `xml:"title,attr" json:"title"`
@@ -79,4 +99,4 @@ type EmailAccount struct {
 	*EmailLink
 	Username string `xml:"user,attr"`
 	Password string `xml:"pass,attr"`
-}
+}*/

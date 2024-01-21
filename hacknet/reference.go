@@ -1,4 +1,4 @@
-package model
+package hacknet
 
 import (
 	"encoding/xml"

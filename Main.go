@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/LunasphereEntertainment/ExtensionStudio/model"
 	"encoding/json"
 	"fmt"
+	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
 )
 
 func main() {
-	extension, err := LoadXML[model.ExtensionInfo]("E:\\SteamLibrary\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension\\ExtensionInfo.xml")
+	extension, err := LoadXML[hacknet.ExtensionInfo]("E:\\SteamLibrary\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension\\ExtensionInfo.xml")
 	if err != nil {
 		panic(err)
 	}

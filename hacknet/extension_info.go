@@ -1,4 +1,4 @@
-package model
+package hacknet
 
 import (
 	"encoding/xml"
@@ -10,8 +10,13 @@ type ExtensionInfo struct {
 	Title      string `xml:"Name" json:"name"`
 	AllowSaves bool   `json:"allowSaves"`
 	Language
-	StartingNodes   CSVList                    `xml:"StartingVisibleNodes"`
-	StartingMission ExternalReference[Mission] `xml:"StartingMission"`
+	StartingNodes      CSVList                                 `xml:"StartingVisibleNodes"`
+	StartingMission    ExternalReference[Mission]              `xml:"StartingMission"`
+	StartingActions    ExternalReference[ConditionalActionSet] `xml:"StartingActions"`
+	Description        string                                  `xml:"Description"`
+	Factions           []ExternalReference[Faction]            `xml:"Faction"`
+	StartsWithTutorial bool                                    `xml:"StartsWithTutorial"`
+	HasIntroStartup    bool                                    `xml:"HasIntroStartup"`
 }
 
 func (ext *ExtensionInfo) String() string {

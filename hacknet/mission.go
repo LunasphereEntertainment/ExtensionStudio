@@ -1,4 +1,4 @@
-package model
+package hacknet
 
 import "encoding/xml"
 
@@ -24,7 +24,7 @@ type Mission struct {
 	NextMission  NextMission                  `xml:"nextMission" json:"nextMission"`
 	Branches     []ExternalReference[Mission] `xml:"branchMissions>branch"`
 	Posting      BoardPosting                 `xml:"posting"`
-	Email        `xml:"email" json:"email"`
+	Email        Email                        `xml:"email" json:"email"`
 }
 
 type BoardPosting struct {
