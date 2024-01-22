@@ -16,6 +16,7 @@ func (c *CSVList) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 
 	parts := strings.Split(s, ",")
 	for _, part := range parts {
+		part = strings.TrimSpace(part)
 		if len(part) > 0 {
 			*c = append(*c, part)
 		}

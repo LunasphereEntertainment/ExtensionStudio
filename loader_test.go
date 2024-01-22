@@ -184,3 +184,29 @@ func TestLoadTheme(t *testing.T) {
 	assert.Equal(t, hacknet.RgbColour{95, 220, 83}, theme.ThisComputerNode)
 	assert.Equal(t, hacknet.RgbColour{255, 255, 255, 15}, theme.ScanlinesColor)
 }
+
+func TestLoadComputer(t *testing.T) {
+	node, err := LoadXML[hacknet.Computer](basePath + "\\Nodes\\ExampleComputer.xml")
+	if err != nil {
+		t.Error(err)
+		t.FailNow()
+	}
+
+	assert.Equal(t, "advExamplePC", node.ID)
+	assert.Equal(t, "Extension Example PC", node.Name)
+	assert.Equal(t, "167.194.132.7", node.IP)
+	assert.Equal(t, 2, node.Security)
+	assert.False(t, node.AllowsDefaultBootModule)
+	assert.Equal(t, hacknet.Chip, node.Icon)
+	assert.Equal(t, 1, node.Type)
+	assert.Equal(t, hacknet.AdminPass{Password: "password"}, node.AdminPass)
+	assert.Len(t, node.Ports, 10)
+	assert.Equal(t, "21", node.Ports[0])
+	assert.Equal(t, "554", node.Ports[9])
+	assert.Len(t, node.PortRemap, 2)
+	assert.Contains(t, node.PortRemap, "web")
+	assert.Equal(t, 1234, node.PortRemap["web"])
+	assert.Contains(t, node.PortRemap, "22")
+	assert.Equal(t, 2, node.PortRemap["22"])
+	assert.True(t, bool(node.HasTracker))
+}
