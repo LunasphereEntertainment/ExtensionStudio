@@ -17,6 +17,10 @@ type ExtensionInfo struct {
 	Factions           []ExternalReference[Faction]            `xml:"Faction"`
 	StartsWithTutorial bool                                    `xml:"StartsWithTutorial"`
 	HasIntroStartup    bool                                    `xml:"HasIntroStartup"`
+	StartingTheme      ExternalReference[Theme]                `xml:"StartingTheme"`
+	IntroStartupSong   string                                  `xml:"IntroStartupSong"`
+	// TODO: Sequencer Config
+	// TODO: Workshop Info
 }
 
 func (ext *ExtensionInfo) String() string {

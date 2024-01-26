@@ -36,3 +36,7 @@ func (c CSVList) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	raw := strings.Join(c, ",")
 	return e.EncodeElement(raw, start)
 }
+
+func (c CSVList) String() string {
+	return strings.Join(c, ", ")
+}

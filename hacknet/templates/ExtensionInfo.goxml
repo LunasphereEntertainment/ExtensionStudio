@@ -1,0 +1,15 @@
+<HacknetExtension>
+    <Language>{{.Language}}</Language>
+    <Name>{{.Title}}</Name>
+    <AllowSaves>{{.AllowSaves}}</AllowSaves>
+    <StartingVisibleNodes>{{.StartingNodes}}</StartingVisibleNodes>
+    {{if .StartingMission}}<StartingMission>{{.StartingMission}}</StartingMission>{{end}}
+    {{if .StartingActions}}<StartingActions>{{.StartingActions}}</StartingActions>{{end}}
+    <Description>{{.Description}}</Description>
+    {{range .Factions}}<Faction>{{.}}</Faction>
+    {{end}}
+    <StartsWithTutorial>{{.StartsWithTutorial}}</StartsWithTutorial>
+    <HasIntroStartup>{{.HasIntroStartup}}</HasIntroStartup>
+    <StartingTheme>{{.StartingTheme}}</StartingTheme>
+    <IntroStartupSong>{{.IntroStartupSong}}</IntroStartupSong>
+</HacknetExtension>
