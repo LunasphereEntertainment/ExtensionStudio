@@ -14,16 +14,27 @@ func LoadXML[T interface{}](path string) (*T, error) {
 	}
 
 	err = xml.NewDecoder(f).Decode(out)
+	if err != nil {
+		return nil, err
+	}
+
+	err = f.Close()
+	if err != nil {
+		return nil, err
+	}
 
 	return out, err
 }
 
 func SaveXML(path string, model interface{}) error {
-	f, err := os.Open(path)
-	defer f.Close()
+	f, err := os.OpenFile(path, os.O_CREATE, 644)
 	if err != nil {
 		return err
 	}
 
-	return templates.ExecuteTemplate(model, f)
+	err = templates.ExecuteTemplate(model, f)
+	if err != nil {
+		return err
+	}
+	return f.Close()
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
 	actions2 "github.com/LunasphereEntertainment/ExtensionStudio/hacknet/actions"
+	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/nodes"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -186,7 +187,7 @@ func TestLoadTheme(t *testing.T) {
 }
 
 func TestLoadComputer(t *testing.T) {
-	node, err := LoadXML[hacknet.Computer](basePath + "\\Nodes\\ExampleComputer.xml")
+	node, err := LoadXML[nodes.Computer](basePath + "\\Nodes\\ExampleComputer.xml")
 	if err != nil {
 		t.Error(err)
 		t.FailNow()
@@ -197,9 +198,9 @@ func TestLoadComputer(t *testing.T) {
 	assert.Equal(t, "167.194.132.7", node.IP)
 	assert.Equal(t, 2, node.Security)
 	assert.False(t, node.AllowsDefaultBootModule)
-	assert.Equal(t, hacknet.Chip, node.Icon)
+	assert.Equal(t, nodes.Chip, node.Icon)
 	assert.Equal(t, 1, node.Type)
-	assert.Equal(t, hacknet.AdminPass{Password: "password"}, node.AdminPass)
+	assert.Equal(t, nodes.AdminPass{Password: "password"}, node.AdminPass)
 	assert.Len(t, node.Ports, 10)
 	assert.Equal(t, "21", node.Ports[0])
 	assert.Equal(t, "554", node.Ports[9])
