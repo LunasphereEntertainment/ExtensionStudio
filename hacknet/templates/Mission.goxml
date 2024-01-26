@@ -1,0 +1,58 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<mission id="{{.ID}}" activeCheck="{{.ActiveCheck}}" shouldIgnoreSenderVerification="{{.VerifySender}}">
+    {{if .Goals}}<goals>
+        {{range .Goals}}<goal type="{{.Type}}"
+            {{if .Target -}}target="{{.Target}}"{{- end -}}
+            {{if .DestTarget -}}destTarget="{{.DestTarget}}"{{- end -}}
+            {{if .File -}}file="{{.File}}"{{- end -}}
+            {{if .Path -}}path="{{.Path}}"{{- end -}}
+            {{if .DestPath -}}destPath="{{.DestPath}}"{{- end -}}
+            {{if .Removal -}}removal="{{.Removal}}"{{- end -}}
+            {{if .CaseSensitive -}}caseSensitive="{{.CaseSensitive}}"{{- end -}}
+            {{if .Time -}}time="{{.Time}}"{{- end -}}
+            {{if .Decrypt -}}decrypt="{{.Decrypt}}"{{- end -}}
+            {{if .DecryptPass -}}decryptPass="{{.DecryptPass}}"{{- end -}}
+            {{if .MailServer -}}mailServer="{{.MailServer}}"{{- end -}}
+            {{if .Recipient -}}recipient="{{.Recipient}}"{{- end -}}
+            {{if .Subject -}}subject="{{.Subject}}"{{- end -}}
+            {{if .Owner -}}owner="{{.Owner}}"{{- end -}}
+        />
+        {{- end}}
+    </goals>{{end}}
+
+    {{if .Start -}}
+    <missionStart val="{{.Start.FunctionValue}}" suppress="{{.Start.Suppress}}">{{.Start.Value}}</missionStart>
+    {{else}}
+    <missionStart>NONE</missionStart>
+    {{- end -}}
+
+    {{if .End.Value}}
+    <missionEnd {{- if .End.FunctionValue -}}val="{{.End.FunctionValue}}"{{- end -}}>{{.End.Value}}</missionEnd>
+    {{else}}
+    <missionEnd>NONE</missionEnd>
+    {{- end}}
+
+    <nextMission IsSilent="{{.NextMission.Silent}}">{{.NextMission.Path}}</nextMission>
+
+    {{if .Branches -}}
+    <branchMissions>
+        {{range .Branches}}<branch>{{.}}</branch>{{end}}
+    </branchMissions>
+    {{- end}}
+
+    {{if .Posting -}}
+    <posting title="{{.Posting.Title}}" req="{{.Posting.RequiredFlags}}" requiredRank="{{.Posting.RequiredRank}}">{{.Posting.Body}}</posting>
+    {{- end}}
+
+    <email>
+        <sender>{{.Email.Sender}}</sender>
+        <subject>{{.Email.Subject}}</subject>
+        <body>{{.Email.Body}}</body>
+        {{- if or .Email.Notes .Email.Links .Email.Accounts}}
+        <attachments>
+            {{range .Email.Notes}}<note title="{{.Title}}">{{.Content}}</note>{{end}}
+            {{range .Email.Links}}<link comp="{{.Computer}}" />{{end}}
+            {{range .Email.Accounts}}<account comp="{{.Computer}}" user="{{.Username}}" pass="{{.Password}}" />{{end}}
+        </attachments>{{end}}
+    </email>
+</mission>

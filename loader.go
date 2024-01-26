@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/xml"
+	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/templates"
 	"os"
 )
 
@@ -19,9 +20,10 @@ func LoadXML[T interface{}](path string) (*T, error) {
 
 func SaveXML(path string, model interface{}) error {
 	f, err := os.Open(path)
+	defer f.Close()
 	if err != nil {
 		return err
 	}
 
-	return xml.NewEncoder(f).Encode(model)
+	return templates.ExecuteTemplate(model, f)
 }

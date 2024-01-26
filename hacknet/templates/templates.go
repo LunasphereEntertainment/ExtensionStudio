@@ -1,10 +1,10 @@
 package templates
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/nodes"
+	"io"
 	"reflect"
 	"text/template"
 )
@@ -18,20 +18,21 @@ func init() {
 	tmpl = template.Must(template.ParseFiles(
 		"Computer.goxml",
 		"ExtensionInfo.goxml",
+		"Mission.goxml",
 	))
 	templateNames = map[reflect.Type]string{
 		reflect.TypeOf(nodes.Computer{}):        "Computer.goxml",
 		reflect.TypeOf(hacknet.ExtensionInfo{}): "ExtensionInfo.goxml",
+		reflect.TypeOf(hacknet.Mission{}):       "Mission.goxml",
 	}
 }
 
-func ExecuteTemplate[T interface{}](data T) ([]byte, error) {
+func ExecuteTemplate[T interface{}](data T, output io.Writer) error {
 	tmplName, ok := templateNames[reflect.TypeOf(data)]
 	if !ok {
-		return nil, fmt.Errorf("no template loaded for type '%s'", reflect.TypeOf(data))
+		return fmt.Errorf("no template loaded for type '%s'", reflect.TypeOf(data))
 	}
 
-	var buff bytes.Buffer
-	err := tmpl.ExecuteTemplate(&buff, tmplName, data)
-	return buff.Bytes(), err
+	err := tmpl.ExecuteTemplate(output, tmplName, data)
+	return err
 }

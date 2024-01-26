@@ -1,6 +1,7 @@
 package templates
 
 import (
+	"bytes"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/nodes"
 	"testing"
@@ -112,12 +113,13 @@ More text`},
 		},
 	}
 
-	data, err := ExecuteTemplate(comp)
+	out := bytes.Buffer{}
+	err := ExecuteTemplate(comp, &out)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	t.Log(string(data))
+	t.Log(out.String())
 }
 
 func TestExecuteExtensionTemplate(t *testing.T) {
@@ -143,10 +145,93 @@ func TestExecuteExtensionTemplate(t *testing.T) {
 		IntroStartupSong:   "The_Quickening",
 	}
 
-	data, err := ExecuteTemplate(ext)
+	out := bytes.Buffer{}
+	err := ExecuteTemplate(ext, &out)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	t.Log(string(data))
+	t.Log(out.String())
+}
+
+func TestExecuteMissionTemplate(t *testing.T) {
+	missionStartSuppress := true
+	missionStartValue := 7
+
+	delayGoalTime := "10.0"
+	flagTarget := "flagName"
+
+	mission := hacknet.Mission{
+		ID:           "testMission0",
+		ActiveCheck:  true,
+		VerifySender: false,
+		Goals: []hacknet.Goal{
+			{
+				Type: "delay",
+				Time: &delayGoalTime,
+			},
+			{
+				Type:   "hasflag",
+				Target: &flagTarget,
+			},
+		},
+		Start: hacknet.MissionFunctions{
+			Value:         "changeSong",
+			Suppress:      &missionStartSuppress,
+			FunctionValue: &missionStartValue,
+		},
+		End: hacknet.MissionFunctions{},
+		NextMission: hacknet.NextMission{
+			Path:   "NONE",
+			Silent: false,
+		},
+		Branches: []hacknet.ExternalReference[hacknet.Mission]{
+			"Missions/BranchExample/TestBranchMission.xml",
+		},
+		Posting: hacknet.BoardPosting{
+			Title:         "Do the Extension Test Mission",
+			RequiredFlags: hacknet.CSVList{"someCustomFlag"},
+			RequiredRank:  3,
+			Body: `This is the body text of the posting that will appear when the mission is clicked on. It should contain a basic outline, with any warnings the player needs.
+Once accepted, the email should contain full details.`,
+		},
+		Email: hacknet.Email{
+			Sender:  "Matt",
+			Subject: "Test Mission Email",
+			Body: `This is the body of the email.
+Be careful with your formatting! The Hacknet parser does not account for auto-whitespace added to the left here.
+Email contents are very important - small changes in wording can dramatically change how easy or hard a mission is.
+Be very conscious about how much you are hinting at and guiding the player, and understand that it will be much harder
+for everyone that's not you.
+
+Good luck,
+-Matt
+    `,
+			Notes: []hacknet.NoteAttachment{
+				{Title: "An example note", Content: `Experiment with note formatting!
+Remember that the note space is very small, so text overflow onto new lines happens quickly.
+
+Guide the player! Hacknet missions are very frustrating when the player has too little direction and cant continue.
+      `},
+			},
+			Links: []hacknet.LinkAttachment{
+				{Computer: "missionTestNode"},
+			},
+			Accounts: []hacknet.AccountAttachment{
+				{
+					Computer: "missionTestNode",
+					Username: "TestUser",
+					Password: "testpass",
+				},
+			},
+		},
+	}
+
+	out := bytes.Buffer{}
+	err := ExecuteTemplate(mission, &out)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(out.String())
 }
