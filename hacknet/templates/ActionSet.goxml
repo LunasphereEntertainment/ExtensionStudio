@@ -1,0 +1,14 @@
+<ConditionalActions>
+    {{- if .OnConnect -}}
+    {{range .OnConnect }}
+    <OnConnect
+            {{- if .Target -}}target="{{.Target}}"{{- end -}}
+            {{- if .NeedsMissionComplete -}}needsMissionComplete="{{.NeedsMissionComplete}}"{{- end -}}
+            {{- if .RequiredFlags -}}requiredFlags="{{.RequiredFlags}}"{{- end -}}>
+        {{range .Actions -}}
+            {{ .XML}}
+        {{- end}}
+    </OnConnect>
+        {{- end}}
+    {{- end }}
+</ConditionalActions>

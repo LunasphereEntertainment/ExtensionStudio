@@ -3,6 +3,7 @@ package templates
 import (
 	"bytes"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
+	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/actions"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/nodes"
 	"testing"
 )
@@ -167,11 +168,11 @@ func TestExecuteMissionTemplate(t *testing.T) {
 		VerifySender: false,
 		Goals: []hacknet.Goal{
 			{
-				Type: "delay",
+				Type: hacknet.Delay,
 				Time: &delayGoalTime,
 			},
 			{
-				Type:   "hasflag",
+				Type:   hacknet.HasFlag,
 				Target: &flagTarget,
 			},
 		},
@@ -229,6 +230,31 @@ Guide the player! Hacknet missions are very frustrating when the player has too 
 
 	out := bytes.Buffer{}
 	err := ExecuteTemplate(mission, &out)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(out.String())
+}
+
+func TestExecuteActionSetTemplate(t *testing.T) {
+	actionSet := hacknet.ConditionalActionSet{
+		OnConnect: []hacknet.ActionSequence{
+			{Actions: []actions.Action{
+				{Value: actions.AddIRCMessage{
+					DelayableAction: &actions.DelayableAction{
+						Delay: 5,
+					},
+					TargetableAction: &actions.TargetableAction{Target: "advExamplePC"},
+					Author:           "DependableSkeleton",
+					Content:          "Hey, you're back, having just completed your mission.",
+				}},
+			}},
+		},
+	}
+
+	out := bytes.Buffer{}
+	err := ExecuteTemplate(actionSet, &out)
 	if err != nil {
 		t.Fatal(err)
 	}

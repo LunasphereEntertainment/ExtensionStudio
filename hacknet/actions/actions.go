@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"bytes"
 	"encoding/xml"
 )
 
@@ -10,6 +11,16 @@ type IAction interface {
 
 type Action struct {
 	Value IAction
+}
+
+func (a *Action) XML() string {
+	buff := bytes.Buffer{}
+	err := xml.NewEncoder(&buff).Encode(a.Value)
+	if err != nil {
+		panic(err)
+	}
+
+	return buff.String()
 }
 
 func (a *Action) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {

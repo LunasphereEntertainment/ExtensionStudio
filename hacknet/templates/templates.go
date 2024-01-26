@@ -19,11 +19,13 @@ func init() {
 		"Computer.goxml",
 		"ExtensionInfo.goxml",
 		"Mission.goxml",
+		"ActionSet.goxml",
 	))
 	templateNames = map[reflect.Type]string{
-		reflect.TypeOf(nodes.Computer{}):        "Computer.goxml",
-		reflect.TypeOf(hacknet.ExtensionInfo{}): "ExtensionInfo.goxml",
-		reflect.TypeOf(hacknet.Mission{}):       "Mission.goxml",
+		reflect.TypeOf(nodes.Computer{}):               "Computer.goxml",
+		reflect.TypeOf(hacknet.ExtensionInfo{}):        "ExtensionInfo.goxml",
+		reflect.TypeOf(hacknet.Mission{}):              "Mission.goxml",
+		reflect.TypeOf(hacknet.ConditionalActionSet{}): "ActionSet.goxml",
 	}
 }
 
