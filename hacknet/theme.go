@@ -21,8 +21,6 @@ const (
 
 type RgbColour []int
 
-//type RgbaColour [4]int
-
 func (rgb *RgbColour) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var raw string
 	if err := d.DecodeElement(&raw, &start); err != nil {
@@ -68,13 +66,6 @@ type Theme struct {
 
 /*
 <!-- Main Colors - these will define the main feel of the theme -->
-  <!-- Color of nodes on the netmap, and many other derived colors. -->
-  <defaultHighlightColor>255,41,63</defaultHighlightColor>
-  <defaultTopBarColor>74,7,14,255</defaultTopBarColor>
-  <!-- This is used for the outlines of the module windows -->
-  <moduleColorSolidDefault>0,204,132</moduleColorSolidDefault>
-  <moduleColorStrong>14,40,25,80</moduleColorStrong>
-  <moduleColorBacking>5,7,6,10</moduleColorBacking>
 */
 
 type MainColours struct {

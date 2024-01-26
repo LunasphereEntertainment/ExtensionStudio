@@ -261,3 +261,22 @@ func TestExecuteActionSetTemplate(t *testing.T) {
 
 	t.Log(out.String())
 }
+
+func TestExecuteThemeTemplate(t *testing.T) {
+	theme := hacknet.Theme{
+		Layout:          hacknet.Blue,
+		BackgroundPath:  "Themes/Backgrounds/Blue.png",
+		PreserveScaling: false,
+		BackgroundFill:  hacknet.RgbColour{50, 50, 80},
+		MainColours: &hacknet.MainColours{
+			ModuleColorSolidDefault: hacknet.RgbColour{0, 0, 0},
+			ModuleColorStrong:       hacknet.RgbColour{0, 0, 0},
+		},
+	}
+
+	buff := bytes.Buffer{}
+	if err := ExecuteTemplate(theme, &buff); err != nil {
+		t.Fatal(err)
+	}
+	t.Log(buff.String())
+}

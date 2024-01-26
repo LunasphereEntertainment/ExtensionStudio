@@ -1,7 +1,7 @@
 package templates
 
 import (
-	"fmt"
+	"encoding/xml"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/nodes"
 	"io"
@@ -32,7 +32,9 @@ func init() {
 func ExecuteTemplate[T interface{}](data T, output io.Writer) error {
 	tmplName, ok := templateNames[reflect.TypeOf(data)]
 	if !ok {
-		return fmt.Errorf("no template loaded for type '%s'", reflect.TypeOf(data))
+		enc := xml.NewEncoder(output)
+		enc.Indent("", "    ")
+		return enc.Encode(data)
 	}
 
 	err := tmpl.ExecuteTemplate(output, tmplName, data)
