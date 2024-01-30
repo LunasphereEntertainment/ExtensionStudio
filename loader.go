@@ -27,7 +27,7 @@ func LoadXML[T interface{}](path string) (*T, error) {
 }
 
 func SaveXML(path string, model interface{}) error {
-	f, err := os.OpenFile(path, os.O_CREATE, 644)
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_TRUNC, 644)
 	if err != nil {
 		return err
 	}

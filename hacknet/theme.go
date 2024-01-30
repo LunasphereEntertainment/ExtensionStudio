@@ -55,6 +55,7 @@ func (rgb RgbColour) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 }
 
 type Theme struct {
+	XMLName         struct{}    `xml:"CustomTheme"`
 	Layout          ThemeLayout `xml:"themeLayoutName"`
 	BackgroundPath  string      `xml:"backgroundImagePath"`
 	PreserveScaling bool        `xml:"UseAspectPreserveBackgroundScaling"`

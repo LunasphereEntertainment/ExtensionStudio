@@ -1,23 +1,109 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/nodes"
+	"github.com/google/uuid"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
 )
 
 type Project struct {
-	Path string
+	Path string `json:"-"`
 
-	Info       *hacknet.ExtensionInfo
-	ActionSets []hacknet.ExternalReference[hacknet.ConditionalActionSet]
-	Factions   []hacknet.ExternalReference[hacknet.Faction]
-	Missions   []hacknet.ExternalReference[hacknet.Mission]
-	Nodes      []hacknet.ExternalReference[nodes.Computer]
-	Themes     []hacknet.ExternalReference[hacknet.Theme]
+	Info       *hacknet.ExtensionInfo                                    `json:"info"`
+	ActionSets []hacknet.ExternalReference[hacknet.ConditionalActionSet] `json:"actions"`
+	Factions   []hacknet.ExternalReference[hacknet.Faction]              `json:"factions"`
+	Missions   []hacknet.ExternalReference[hacknet.Mission]              `json:"missions"`
+	Nodes      []hacknet.ExternalReference[nodes.Computer]               `json:"nodes"`
+	Themes     []hacknet.ExternalReference[hacknet.Theme]                `json:"themes"`
+}
+
+type ProjectListing struct {
+	ID   uuid.UUID `json:"id"`
+	Path string    `json:"path"`
+}
+
+var (
+	recentProjects projectListing
+)
+
+type projectListing []ProjectListing
+
+func getApplicationDir() string {
+	cfgPath, err := os.UserConfigDir()
+	if err != nil {
+		panic(err)
+	}
+	appDir := path.Join(cfgPath, "ExtensionStudio")
+	err = os.MkdirAll(appDir, 0644)
+	if err != nil {
+		panic(err)
+	}
+
+	return appDir
+}
+
+func (pl projectListing) Find(id uuid.UUID) (*ProjectListing, error) {
+	for _, proj := range pl {
+		if proj.ID == id {
+			return &proj, nil
+		}
+	}
+
+	return nil, fmt.Errorf("recent project does not exist")
+}
+
+func (pl projectListing) FindByPath(path string) (*ProjectListing, error) {
+	for _, proj := range pl {
+		if proj.Path == path {
+			return &proj, nil
+		}
+	}
+
+	return nil, fmt.Errorf("recent project does not exist")
+}
+
+func (pl projectListing) Save() {
+	f, err := os.OpenFile(path.Join(getApplicationDir(), "projects.json"), os.O_CREATE, 0644)
+	if err != nil {
+		panic(err)
+	}
+
+	err = json.NewEncoder(f).Encode(pl)
+	if err != nil {
+		panic(err)
+	}
+
+	err = f.Close()
+	if err != nil {
+		panic(err)
+	}
+}
+
+func init() {
+	recentProjects = make(projectListing, 0)
+
+	f, err := os.OpenFile(path.Join(getApplicationDir(), "projects.json"), os.O_APPEND, 0644)
+	if err != nil {
+		if os.IsNotExist(err) {
+			recentProjects.Save()
+			return
+		} else {
+			panic(err)
+		}
+	}
+
+	defer f.Close()
+
+	err = json.NewDecoder(f).Decode(&recentProjects)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func resourceDiscovery[T interface{}](startPath string) []hacknet.ExternalReference[T] {
@@ -56,7 +142,22 @@ func LoadProject(projectPath string) (proj *Project, err error) {
 	proj.Nodes = resourceDiscovery[nodes.Computer](path.Join(projectPath, "Nodes"))
 	proj.Themes = resourceDiscovery[hacknet.Theme](path.Join(projectPath, "Themes"))
 
+	_, err = recentProjects.FindByPath(projectPath)
+	if err != nil {
+		recentProjects = append(recentProjects, ProjectListing{ID: uuid.New(), Path: projectPath})
+		recentProjects.Save()
+	}
+
 	return proj, err
+}
+
+func LoadRecentProject(id uuid.UUID) (*Project, error) {
+	proj, err := recentProjects.Find(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return LoadProject(proj.Path)
 }
 
 // NewProject constructs a new project in the specified directory, expects an extension info to also be submitted.
@@ -81,10 +182,63 @@ func NewProject(info hacknet.ExtensionInfo, projectPath string) (proj *Project, 
 	if err != nil {
 		return nil, err
 	}
+
+	// Create directories (if not exist)
+	err = os.MkdirAll(path.Join(projectPath, "Actions"), 0644)
+	if err != nil {
+		return nil, err
+	}
+
+	err = os.MkdirAll(path.Join(projectPath, "Missions"), 0644)
+	if err != nil {
+		return nil, err
+	}
+
+	err = os.MkdirAll(path.Join(projectPath, "Nodes"), 0644)
+	if err != nil {
+		return nil, err
+	}
+
+	err = os.MkdirAll(path.Join(projectPath, "Factions"), 0644)
+	if err != nil {
+		return nil, err
+	}
+
+	err = os.MkdirAll(path.Join(projectPath, "Themes"), 0644)
+	if err != nil {
+		return nil, err
+	}
+
+	recentProjects = append(recentProjects, ProjectListing{
+		ID:   uuid.New(),
+		Path: projectPath,
+	})
+	recentProjects.Save()
+
 	return LoadProject(projectPath)
 }
 
-// DeleteProject deletes a project directory and all it's contents. THIS IS HIGHLY DESTRUCTIVE USE WITH CAUTION
+// DeleteProject deletes a project directory and all it's contents.
+// A/N: used to be HIGHLY DESTRUCTIVE USE WITH CAUTION
 func DeleteProject(projectPath string) error {
-	return os.RemoveAll(projectPath)
+	//err := os.RemoveAll(projectPath)
+	//if err != nil {
+	//	return err
+	//}
+
+	var i = -1
+	for _, p := range recentProjects {
+		if p.Path == projectPath {
+			break
+		}
+		i++
+	}
+
+	if i >= 0 {
+		recentProjects = append(recentProjects[0:i-1], recentProjects[i+1:]...)
+	}
+
+	recentProjects.Save()
+
+	return nil
 }

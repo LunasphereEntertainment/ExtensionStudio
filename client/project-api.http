@@ -1,0 +1,36 @@
+### List Recent Projects
+GET http://localhost:8080/projects
+
+### Open Existing Project
+PUT http://localhost:8080/projects
+Content-Type: application/json
+
+{
+  "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hacknet\\Extensions\\IntroExtension"
+}
+
+### Open Recent Project
+PUT http://localhost:8080/projects/fd16946b-9b6f-4700-85f7-1c4cf602bbfa
+
+### Create Project
+POST http://localhost:8080/projects
+Content-Type: application/json
+
+{
+  "path": "C:\\Users\\admir\\OneDrive\\Desktop\\TestProject",
+  "info": {
+    "name": "Test Project",
+    "language": "en-us",
+    "description": "This is a quick test of the extension studio.\nHello,world!!!",
+    "startingMission": "NONE",
+    "startingActions": "NONE",
+    "hasIntroStartup": false,
+    "introStartupSong": "Music/CustomTheme01.ogg",
+    "startingTheme": "HacknetBlue",
+    "startingNodes": ["playerComp"]
+  }
+}
+
+
+### Delete Project
+DELETE http://localhost:8080/projects/862d8e7d-08a2-402a-878e-f016fad5c869

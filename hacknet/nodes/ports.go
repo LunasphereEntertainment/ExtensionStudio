@@ -1,6 +1,7 @@
 package nodes
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"strconv"
 	"strings"
@@ -8,6 +9,14 @@ import (
 
 type PortsForCrack struct {
 	Value int `xml:"val,attr"`
+}
+
+func (pc *PortsForCrack) UnmarshalJSON(data []byte) error {
+	return json.Unmarshal(data, &pc.Value)
+}
+
+func (pc *PortsForCrack) MarshalJSON() ([]byte, error) {
+	return json.Marshal(pc.Value)
 }
 
 type PortRemap map[string]int
@@ -36,6 +45,10 @@ func (remap *PortRemap) UnmarshalXML(d *xml.Decoder, start xml.StartElement) err
 	*remap = out
 
 	return nil
+}
+
+func (remap *PortRemap) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return e.EncodeElement(remap.String(), start)
 }
 
 func (remap PortRemap) String() string {

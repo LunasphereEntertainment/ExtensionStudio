@@ -10,12 +10,12 @@ type EosMailAccount struct {
 }
 
 type EosDevice struct {
-	ID           string           `xml:"id,attr"`
-	Name         string           `xml:"name,attr"`
-	Icon         ComputerIcon     `xml:"icon,attr"`
-	Empty        bool             `xml:"empty,attr"`
-	PassOverride string           `xml:"passOverride,attr,omitempty"`
-	Notes        []EosNote        `xml:"node"`
-	MailAccounts []EosMailAccount `xml:"mail"`
-	Files        []File           `xml:"file"`
+	ID           string           `xml:"id,attr" json:"id"`
+	Name         string           `xml:"name,attr" json:"name"`
+	Icon         ComputerIcon     `xml:"icon,attr" json:"icon"`
+	Empty        bool             `xml:"empty,attr" json:"empty"`
+	PassOverride string           `xml:"passOverride,attr,omitempty" json:"passOverride"`
+	Notes        []EosNote        `xml:"node" json:"notes"`
+	MailAccounts []EosMailAccount `xml:"mail" json:"mail"`
+	Files        []File           `xml:"file" json:"files"`
 }

@@ -1,5 +1,9 @@
 package nodes
 
+import (
+	"encoding/json"
+)
+
 type ComputerAccountType string
 
 const (
@@ -17,4 +21,18 @@ type ComputerAccount struct {
 
 type AdminPass struct {
 	Password string `xml:"pass,attr"`
+}
+
+func (ap *AdminPass) UnmarshalJSON(raw []byte) error {
+	var pass string
+	err := json.Unmarshal(raw, &pass)
+	if err != nil {
+		return err
+	}
+	ap.Password = pass
+	return nil
+}
+
+func (ap *AdminPass) MarshalJSON() ([]byte, error) {
+	return json.Marshal(ap.Password)
 }

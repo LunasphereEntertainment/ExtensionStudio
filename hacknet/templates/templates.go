@@ -16,10 +16,14 @@ var (
 
 func init() {
 	tmpl = template.Must(template.ParseFiles(
-		"hacknet/templates/Computer.goxml",
-		"hacknet/templates/ExtensionInfo.goxml",
-		"hacknet/templates/Mission.goxml",
-		"hacknet/templates/ActionSet.goxml",
+		"C:\\Users\\admir\\CodingProjects\\ExtensionStudio\\hacknet\\templates\\Computer.goxml",
+		"C:\\Users\\admir\\CodingProjects\\ExtensionStudio\\hacknet\\templates\\ActionSet.goxml",
+		"C:\\Users\\admir\\CodingProjects\\ExtensionStudio\\hacknet\\templates\\ExtensionInfo.goxml",
+		"C:\\Users\\admir\\CodingProjects\\ExtensionStudio\\hacknet\\templates\\Mission.goxml",
+		//"hacknet/templates/Computer.goxml",
+		//"hacknet/templates/ExtensionInfo.goxml",
+		//"hacknet/templates/Mission.goxml",
+		//"hacknet/templates/ActionSet.goxml",
 	))
 	templateNames = map[reflect.Type]string{
 		reflect.TypeOf(nodes.Computer{}):               "Computer.goxml",

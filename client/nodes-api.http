@@ -1,0 +1,51 @@
+### Load a node definition
+GET http://localhost:8080/nodes?path=C%3A%5CProgram%20Files%20%28x86%29%5CSteam%5Csteamapps%5Ccommon%5CHacknet%5CExtensions%5CIntroExtension%5CNodes%5CExampleComputer.xml
+
+### Create a node
+POST http://localhost:8080/nodes?path=C%3A%5CUsers%5Cadmir%5COneDrive%5CDesktop%5CTestProject%5CNodes%5cMyFirstComputer.xml
+Content-Type: application/json
+
+{
+  "id": "examplePc",
+  "name": "My First Computer",
+  "ip": "#RANDOM_IP#",
+  "security": 2,
+  "allowsDefaultBootModule": false,
+  "icon": "DLCLaptop",
+  "adminPass": "Hello World",
+  "ports": [
+    "22",
+    "21"
+  ],
+  "portsForCrack": 3,
+  "files": [
+    {
+      "path": "bin",
+      "name": "example.exe",
+      "content": "#BINARY#"
+    },
+    {
+      "path": "home",
+      "name": "my_notes.txt",
+      "content": "hello, this is a note!!!"
+    }
+  ],
+  "links": [],
+  "eosLinks": [
+    {
+      "id": "iPhone2",
+      "name": "Apple iPhone S2",
+      "empty": true,
+      "files": [
+        {
+          "name": "note.txt",
+          "path": "home",
+          "content": "TEST NOTE 123"
+        }
+      ],
+      "notes": [
+        {"content":  "testy test notey."}
+      ]
+    }
+  ]
+}

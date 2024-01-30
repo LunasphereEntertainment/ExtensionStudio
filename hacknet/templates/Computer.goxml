@@ -7,32 +7,30 @@
     allowsDefaultBootModule="{{.AllowsDefaultBootModule}}"
     icon="{{.Icon}}"
     Type="{{.Type}}">
-
-    <adminPass pass="{{.AdminPass.Password}}"></adminPass>
-    {{range .Accounts}}
+    <adminPass pass="{{.AdminPass.Password}}" />
+    {{- range .Accounts }}
     <account username="{{.Username}}" password="{{.Password}}" type="{{.Type}}" />
-    {{end}}
+    {{end }}
     <ports>{{.Ports}}</ports>
     <portsForCrack val="{{.PortsForCrack.Value}}" />
 
-    {{if .Trace}}<trace time="{{.Trace.Time}}" />{{end}}
+    {{- if .Trace}}<trace time="{{.Trace.Time}}" />{{end}}
 
-    {{if .AdminConfig}}<admin type="{{.AdminConfig.Type}}" resetPassword="{{.AdminConfig.ResetPassword}}" isSuper="{{.AdminConfig.SuperUser}}" />{{end}}
+    {{- if .AdminConfig}}<admin type="{{.AdminConfig.Type}}" resetPassword="{{.AdminConfig.ResetPassword}}" isSuper="{{.AdminConfig.SuperUser}}" />{{end}}
 
-    {{if .PortRemap}}<portRemap>{{.PortRemap}}</portRemap>{{end}}
-    {{if .HasTracker}}<tracker />{{end}}
+    {{- if .PortRemap}}<portRemap>{{.PortRemap}}</portRemap>{{end}}
+    {{- if .HasTracker}}<tracker />{{end}}
     {{range .Links}}<dlink target="{{.Target}}" />{{end}}
     {{range .Files}}<file path="{{.Path}}" name="{{.Name}}">{{.Content}}</file>
     {{end}}
-    {{range .CustomThemes}}<customthemefile path="{{.Path}}" Name="{{.Name}}" themePath="{{.ThemePath}}" />
+    {{- range .CustomThemes}}<customthemefile path="{{.Path}}" Name="{{.Name}}" themePath="{{.ThemePath}}" />
     {{end}}
-    {{range .EncryptedFiles}}<encryptedFile path="{{.Path}}" name="{{.Name}}" extension="{{.Extension}}" ip="{{.IP}}" header="{{.Header}}" pass="{{.Password}}">{{.Content}}</encryptedFile>
+    {{range .EncryptedFiles -}}<encryptedFile path="{{.Path}}" name="{{.Name}}" extension="{{.Extension}}" ip="{{.IP}}" header="{{.Header}}" pass="{{.Password}}">{{.Content}}</encryptedFile>
     {{end}}
-    {{range .EosLinks}}<eosDevice name="{{.Name}}" id="{{.ID}}" icon="{{.Icon}}" empty="{{.Empty}}" passOverride="{{.PassOverride}}">
+    {{- range .EosLinks}}<eosDevice name="{{.Name}}" id="{{.ID}}" icon="{{.Icon}}" empty="{{.Empty}}" passOverride="{{.PassOverride}}">
         {{ range .Notes}}<note>{{.Content}}</note>
         {{end}}{{range .MailAccounts}}<mail username="{{.Username}}" pass="{{.Password}}" />
         {{end}}{{range .Files}}<file path="{{.Path}}" name="{{.Name}}">{{.Content}}</file>
         {{end}}
-    </eosDevice>
-    {{end}}
+    </eosDevice>{{end}}
 </Computer>

@@ -45,10 +45,35 @@ func TestNewProject(t *testing.T) {
 	assert.NotNil(t, proj.Info)
 	assert.Equal(t, "Test New Extension", proj.Info.Title)
 
-	// check the new directory exists
+	// check the new directories exists
 	if _, err := os.Stat(dest); err != nil {
 		if os.IsNotExist(err) {
 			t.Fatal("did not create project directory correctly")
+		}
+	}
+	if _, err := os.Stat(path.Join(dest, "Actions")); err != nil {
+		if os.IsNotExist(err) {
+			t.Fatal("did not create project structure correctly [actions]")
+		}
+	}
+	if _, err := os.Stat(path.Join(dest, "Factions")); err != nil {
+		if os.IsNotExist(err) {
+			t.Fatal("did not create project structure correctly [factions]")
+		}
+	}
+	if _, err := os.Stat(path.Join(dest, "Missions")); err != nil {
+		if os.IsNotExist(err) {
+			t.Fatal("did not create project structure correctly [missions]")
+		}
+	}
+	if _, err := os.Stat(path.Join(dest, "Nodes")); err != nil {
+		if os.IsNotExist(err) {
+			t.Fatal("did not create project structure correctly [missions]")
+		}
+	}
+	if _, err := os.Stat(path.Join(dest, "Themes")); err != nil {
+		if os.IsNotExist(err) {
+			t.Fatal("did not create project structure correctly [themes]")
 		}
 	}
 
