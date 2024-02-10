@@ -3,7 +3,7 @@ package hacknet
 import "encoding/xml"
 
 type MissionFunctions struct {
-	Value         string `xml:",chardata" json:"value"`
+	Value         string `xml:",chardata" json:"function"`
 	Suppress      *bool  `xml:"suppress,attr,omitempty" json:"suppress,omitempty"`
 	FunctionValue *int   `xml:"val,attr,omitempty" json:"functionValue,omitempty"`
 }
@@ -19,11 +19,11 @@ type Mission struct {
 	ActiveCheck  bool                         `xml:"activeCheck,attr" json:"activeCheck"`
 	VerifySender bool                         `xml:"shouldIgnoreSenderVerification,attr" json:"verifySender"`
 	Goals        []Goal                       `xml:"goals>goal" json:"goals"`
-	Start        MissionFunctions             `xml:"missionStart"`
-	End          MissionFunctions             `xml:"missionEnd"`
+	Start        MissionFunctions             `xml:"missionStart" json:"missionStart"`
+	End          MissionFunctions             `xml:"missionEnd" json:"missionEnd"`
 	NextMission  NextMission                  `xml:"nextMission" json:"nextMission"`
-	Branches     []ExternalReference[Mission] `xml:"branchMissions>branch"`
-	Posting      BoardPosting                 `xml:"posting"`
+	Branches     []ExternalReference[Mission] `xml:"branchMissions>branch" json:"branches"`
+	Posting      *BoardPosting                `xml:"posting,omitempty" json:"posting,omitempty"`
 	Email        Email                        `xml:"email" json:"email"`
 }
 

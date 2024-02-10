@@ -13,8 +13,8 @@ type EmailAttachment interface {
 }
 
 type NoteAttachment struct {
-	Title   string `xml:"title,attr"`
-	Content string `xml:",chardata"`
+	Title   string `xml:"title,attr" json:"title"`
+	Content string `xml:",chardata" json:"content"`
 }
 
 func (n *NoteAttachment) Type() AttachmentType {
@@ -22,7 +22,7 @@ func (n *NoteAttachment) Type() AttachmentType {
 }
 
 type LinkAttachment struct {
-	Computer string `xml:"comp,attr" json:"computer"`
+	Computer string `xml:"comp,attr" json:"target"`
 }
 
 func (l *LinkAttachment) Type() AttachmentType {
@@ -30,7 +30,7 @@ func (l *LinkAttachment) Type() AttachmentType {
 }
 
 type AccountAttachment struct {
-	Computer string `xml:"comp,attr" json:"computer"`
+	Computer string `xml:"comp,attr" json:"target"`
 	Username string `xml:"user,attr" json:"username"`
 	Password string `xml:"pass,attr" json:"password"`
 }

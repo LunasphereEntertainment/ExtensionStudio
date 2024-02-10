@@ -6,10 +6,10 @@ import (
 )
 
 type ExtensionInfo struct {
-	xml.Name   `xml:"HacknetExtension" json:"-"`
-	Title      string `xml:"Name" json:"name"`
-	AllowSaves bool   `json:"allowSaves"`
-	Language
+	xml.Name           `xml:"HacknetExtension" json:"-"`
+	Title              string `xml:"Name" json:"name"`
+	AllowSaves         bool   `json:"allowSaves"`
+	Language           `json:"language"`
 	StartingNodes      CSVList                                 `xml:"StartingVisibleNodes" json:"startingNodes"`
 	StartingMission    ExternalReference[Mission]              `xml:"StartingMission" json:"startingMission"`
 	StartingActions    ExternalReference[ConditionalActionSet] `xml:"StartingActions" json:"startingActions"`
@@ -45,7 +45,7 @@ func (ext *ExtensionInfo) String() string {
 	sb.WriteRune('\n')
 
 	sb.WriteString("Starting Mission: ")
-	sb.WriteString(string(ext.StartingMission))
+	sb.WriteString(ext.StartingMission.Path)
 
 	return sb.String()
 }

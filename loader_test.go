@@ -26,8 +26,8 @@ func TestLoadExtension(t *testing.T) {
 	assert.Len(t, ext.StartingNodes, 1)
 	assert.Equal(t, "advExamplePC", ext.StartingNodes[0])
 
-	assert.Equal(t, hacknet.ExternalReference[hacknet.Mission]("Missions/Intro/IntroMission1.xml"), ext.StartingMission)
-	assert.Equal(t, hacknet.ExternalReference[hacknet.ConditionalActionSet]("Actions/StartingActions.xml"), ext.StartingActions)
+	assert.Equal(t, hacknet.ExternalReference[hacknet.Mission]{Path: "Missions/Intro/IntroMission1.xml"}, ext.StartingMission)
+	assert.Equal(t, hacknet.ExternalReference[hacknet.ConditionalActionSet]{Path: "Actions/StartingActions.xml"}, ext.StartingActions)
 }
 
 func TestLoadMission(t *testing.T) {
@@ -56,11 +56,11 @@ func TestLoadMission(t *testing.T) {
 
 	// NextMission
 	assert.Equal(t, false, mission.NextMission.Silent)
-	assert.Equal(t, hacknet.ExternalReference[hacknet.Mission]("NONE"), mission.NextMission.Path)
+	assert.Equal(t, hacknet.ExternalReference[hacknet.Mission]{Path: "NONE"}, mission.NextMission.Path)
 
 	// Branches
 	assert.Len(t, mission.Branches, 1)
-	assert.Equal(t, hacknet.ExternalReference[hacknet.Mission]("Missions/BranchExample/TestBranchMission.xml"), mission.Branches[0])
+	assert.Equal(t, hacknet.ExternalReference[hacknet.Mission]{Path: "Missions/BranchExample/TestBranchMission.xml"}, mission.Branches[0])
 
 	// Email
 	assert.Equal(t, "Matt", mission.Email.Sender)

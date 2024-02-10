@@ -14,6 +14,7 @@ func RestApi(r *mux.Router) {
 	r.PathPrefix("/projects").Methods(http.MethodGet).HandlerFunc(listProjects)
 	r.PathPrefix("/projects").Methods(http.MethodPost).HandlerFunc(newProject)
 	r.PathPrefix("/projects/{id}").Methods(http.MethodPut).HandlerFunc(openProject)
+	r.PathPrefix("/projects").Methods(http.MethodPut).HandlerFunc(openProject)
 	r.PathPrefix("/projects/{id}").Methods(http.MethodDelete).HandlerFunc(deleteProject)
 	r.PathPrefix("/info").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.ExtensionInfo])
 	r.PathPrefix("/info").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.ExtensionInfo])
@@ -34,7 +35,8 @@ func listProjects(w http.ResponseWriter, r *http.Request) {
 }
 
 func openProject(w http.ResponseWriter, r *http.Request) {
-	projectId, err := uuid.Parse(mux.Vars(r)["id"])
+	vars := mux.Vars(r)
+	projectId, err := uuid.Parse(vars["id"])
 	// when none/invalid projectID specified
 	if projectId == uuid.Nil || err != nil {
 		// try loading a specified directory instead

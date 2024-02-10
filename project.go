@@ -10,6 +10,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 )
 
 type Project struct {
@@ -69,7 +70,7 @@ func (pl projectListing) FindByPath(path string) (*ProjectListing, error) {
 }
 
 func (pl projectListing) Save() {
-	f, err := os.OpenFile(path.Join(getApplicationDir(), "projects.json"), os.O_CREATE, 0644)
+	f, err := os.OpenFile(path.Join(getApplicationDir(), "projects.json"), os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -88,7 +89,8 @@ func (pl projectListing) Save() {
 func init() {
 	recentProjects = make(projectListing, 0)
 
-	f, err := os.OpenFile(path.Join(getApplicationDir(), "projects.json"), os.O_APPEND, 0644)
+	f, err := os.OpenFile(path.Join(getApplicationDir(), "projects.json"), os.O_RDONLY, 0644)
+	defer f.Close()
 	if err != nil {
 		if os.IsNotExist(err) {
 			recentProjects.Save()
@@ -98,20 +100,19 @@ func init() {
 		}
 	}
 
-	defer f.Close()
-
 	err = json.NewDecoder(f).Decode(&recentProjects)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
-func resourceDiscovery[T interface{}](startPath string) []hacknet.ExternalReference[T] {
+func resourceDiscovery[T interface{}](projectId uuid.UUID, startPath string) []hacknet.ExternalReference[T] {
 	resources := make([]hacknet.ExternalReference[T], 0)
 
-	err := filepath.WalkDir(startPath, func(path string, d os.DirEntry, err error) error {
-		if filepath.Ext(path) == ".xml" {
-			resources = append(resources, hacknet.ExternalReference[T](path))
+	err := filepath.WalkDir(startPath, func(filePath string, d os.DirEntry, err error) error {
+		if filepath.Ext(filePath) == ".xml" {
+			filePath = strings.TrimPrefix(filePath, startPath)
+			resources = append(resources, hacknet.ExternalReference[T]{Path: filePath, ProjectID: projectId})
 		}
 
 		return nil

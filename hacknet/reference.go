@@ -7,14 +7,16 @@ import (
 	"path"
 )
 
-type ExternalReference[T interface{}] string
+type ExternalReference[T interface{}] struct {
+	Path string
+}
 
 func (e *ExternalReference[T]) Load(basePath string) (*T, error) {
-	if *e == "NONE" {
+	if e.Path == "NONE" {
 		return nil, fmt.Errorf("nothing to load here")
 	}
 
-	f, err := os.Open(path.Join(basePath, string(*e)))
+	f, err := os.Open(path.Join(basePath, e.Path))
 	if err != nil {
 		return nil, err
 	}
