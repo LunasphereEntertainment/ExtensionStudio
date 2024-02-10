@@ -3,12 +3,14 @@ package hacknet
 import (
 	"encoding/xml"
 	"fmt"
+	"github.com/google/uuid"
 	"os"
 	"path"
 )
 
 type ExternalReference[T interface{}] struct {
-	Path string
+	Path      string
+	ProjectID uuid.UUID
 }
 
 func (e *ExternalReference[T]) Load(basePath string) (*T, error) {

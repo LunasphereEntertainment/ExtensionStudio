@@ -136,12 +136,12 @@ func LoadProject(projectPath string) (proj *Project, err error) {
 		Path: projectPath,
 	}
 
-	proj.Info, err = LoadXML[hacknet.ExtensionInfo](path.Join(projectPath, "ExtensionInfo.xml"))
-	proj.ActionSets = resourceDiscovery[hacknet.ConditionalActionSet](path.Join(projectPath, "Actions"))
-	proj.Factions = resourceDiscovery[hacknet.Faction](path.Join(projectPath, "Factions"))
-	proj.Missions = resourceDiscovery[hacknet.Mission](path.Join(projectPath, "Missions"))
-	proj.Nodes = resourceDiscovery[nodes.Computer](path.Join(projectPath, "Nodes"))
-	proj.Themes = resourceDiscovery[hacknet.Theme](path.Join(projectPath, "Themes"))
+	proj.Info, err = LoadXML[hacknet.ExtensionInfo]{path.Join(projectPath, "ExtensionInfo.xml")}
+	proj.ActionSets = resourceDiscovery[hacknet.ConditionalActionSet]{path.Join(projectPath, "Actions")}
+	proj.Factions = resourceDiscovery[hacknet.Faction]{path.Join(projectPath, "Factions")}
+	proj.Missions = resourceDiscovery[hacknet.Mission]{path.Join(projectPath, "Missions")}
+	proj.Nodes = resourceDiscovery[nodes.Computer]{path.Join(projectPath, "Nodes")}
+	proj.Themes = resourceDiscovery[hacknet.Theme]{path.Join(projectPath, "Themes")}
 
 	_, err = recentProjects.FindByPath(projectPath)
 	if err != nil {
