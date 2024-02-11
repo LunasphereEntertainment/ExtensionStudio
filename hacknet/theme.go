@@ -63,6 +63,7 @@ type Theme struct {
 	*MainColours
 	*ExeColours
 	*ExtraColours
+	*ProjectResource
 }
 
 /*

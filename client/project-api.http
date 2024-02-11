@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Open Recent Project
-PUT http://localhost:8080/projects/fd16946b-9b6f-4700-85f7-1c4cf602bbfa
+PUT http://localhost:8080/projects/55d94218-6384-4e72-b576-fc0e7b39cb15
 
 ### Create Project
 POST http://localhost:8080/projects

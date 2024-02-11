@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Extensions-Rest.iml" filepath="$PROJECT_DIR$/.idea/Extensions-Rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ExtensionStudio.iml" filepath="$PROJECT_DIR$/.idea/ExtensionStudio.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../../Program Files (x86)/Steam/steamapps/common/Hacknet/Extensions/IntroExtension/.idea/IntroExtension.iml" filepath="$PROJECT_DIR$/../../../../Program Files (x86)/Steam/steamapps/common/Hacknet/Extensions/IntroExtension/.idea/IntroExtension.iml" />
     </modules>
   </component>

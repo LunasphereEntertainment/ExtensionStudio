@@ -3,7 +3,6 @@ package templates
 import (
 	"encoding/xml"
 	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
-	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/nodes"
 	"io"
 	"reflect"
 	"text/template"
@@ -26,7 +25,7 @@ func init() {
 		//"hacknet/templates/ActionSet.goxml",
 	))
 	templateNames = map[reflect.Type]string{
-		reflect.TypeOf(nodes.Computer{}):               "Computer.goxml",
+		reflect.TypeOf(hacknet.Computer{}):             "Computer.goxml",
 		reflect.TypeOf(hacknet.ExtensionInfo{}):        "ExtensionInfo.goxml",
 		reflect.TypeOf(hacknet.Mission{}):              "Mission.goxml",
 		reflect.TypeOf(hacknet.ConditionalActionSet{}): "ActionSet.goxml",

@@ -21,4 +21,5 @@ type ConditionalActionSet struct {
 	OnAdminGained    []ActionSequence `xml:"OnAdminGained,omitempty" json:"onAdminGained"`
 	DoesNotHaveFlags []ActionSequence `xml:"DoesNotHaveFlags,omitempty" json:"doesNotHaveFlags"`
 	OnDisconnect     []ActionSequence `xml:"OnDisconnect,omitempty" json:"onDisconnect"`
+	*ProjectResource
 }

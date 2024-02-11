@@ -9,22 +9,23 @@ type MissionFunctions struct {
 }
 
 type NextMission struct {
-	Path   ExternalReference[Mission] `xml:",chardata" json:"path"`
-	Silent bool                       `xml:"IsSilent" json:"silent"`
+	//Path   ExternalReference[Mission] `xml:",chardata" json:"path"`
+	Silent bool `xml:"IsSilent" json:"silent"`
 }
 
 type Mission struct {
 	xml.Name     `xml:"mission" json:"-"`
-	ID           string                       `xml:"id,attr" json:"id"`
-	ActiveCheck  bool                         `xml:"activeCheck,attr" json:"activeCheck"`
-	VerifySender bool                         `xml:"shouldIgnoreSenderVerification,attr" json:"verifySender"`
-	Goals        []Goal                       `xml:"goals>goal" json:"goals"`
-	Start        MissionFunctions             `xml:"missionStart" json:"missionStart"`
-	End          MissionFunctions             `xml:"missionEnd" json:"missionEnd"`
-	NextMission  NextMission                  `xml:"nextMission" json:"nextMission"`
-	Branches     []ExternalReference[Mission] `xml:"branchMissions>branch" json:"branches"`
-	Posting      *BoardPosting                `xml:"posting,omitempty" json:"posting,omitempty"`
-	Email        Email                        `xml:"email" json:"email"`
+	ID           string           `xml:"id,attr" json:"id"`
+	ActiveCheck  bool             `xml:"activeCheck,attr" json:"activeCheck"`
+	VerifySender bool             `xml:"shouldIgnoreSenderVerification,attr" json:"verifySender"`
+	Goals        []Goal           `xml:"goals>goal" json:"goals"`
+	Start        MissionFunctions `xml:"missionStart" json:"missionStart"`
+	End          MissionFunctions `xml:"missionEnd" json:"missionEnd"`
+	NextMission  NextMission      `xml:"nextMission" json:"nextMission"`
+	//Branches     []ExternalReference[Mission] `xml:"branchMissions>branch" json:"branches"`
+	Posting *BoardPosting `xml:"posting,omitempty" json:"posting,omitempty"`
+	Email   Email         `xml:"email" json:"email"`
+	*ProjectResource
 }
 
 type BoardPosting struct {

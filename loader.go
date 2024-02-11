@@ -6,8 +6,8 @@ import (
 	"os"
 )
 
-func LoadXML[T interface{}](path string) (*T, error) {
-	out := new(T)
+func LoadXML[T interface{}](path string) (out *T, err error) {
+	out = new(T)
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, err

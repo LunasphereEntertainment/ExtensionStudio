@@ -10,15 +10,15 @@ type ExtensionInfo struct {
 	Title              string `xml:"Name" json:"name"`
 	AllowSaves         bool   `json:"allowSaves"`
 	Language           `json:"language"`
-	StartingNodes      CSVList                                 `xml:"StartingVisibleNodes" json:"startingNodes"`
-	StartingMission    ExternalReference[Mission]              `xml:"StartingMission" json:"startingMission"`
-	StartingActions    ExternalReference[ConditionalActionSet] `xml:"StartingActions" json:"startingActions"`
-	Description        string                                  `xml:"Description" json:"description"`
-	Factions           []ExternalReference[Faction]            `xml:"Faction" json:"factions"`
-	StartsWithTutorial bool                                    `xml:"StartsWithTutorial" json:"startsWithTutorial"`
-	HasIntroStartup    bool                                    `xml:"HasIntroStartup" json:"hasIntroStartup"`
-	StartingTheme      ExternalReference[Theme]                `xml:"StartingTheme" json:"startingTheme"`
-	IntroStartupSong   string                                  `xml:"IntroStartupSong" json:"introStartupSong"`
+	StartingNodes      CSVList           `xml:"StartingVisibleNodes" json:"startingNodes"`
+	StartingMission    ProjectResource   `xml:"StartingMission" json:"startingMission"`
+	StartingActions    ProjectResource   `xml:"StartingActions" json:"startingActions"`
+	Description        string            `xml:"Description" json:"description"`
+	Factions           []ProjectResource `xml:"Faction" json:"factions"`
+	StartsWithTutorial bool              `xml:"StartsWithTutorial" json:"startsWithTutorial"`
+	HasIntroStartup    bool              `xml:"HasIntroStartup" json:"hasIntroStartup"`
+	StartingTheme      ProjectResource   `xml:"StartingTheme" json:"startingTheme"`
+	IntroStartupSong   string            `xml:"IntroStartupSong" json:"introStartupSong"`
 	// TODO: Sequencer Config
 	// TODO: Workshop Info
 }

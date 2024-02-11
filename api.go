@@ -1,36 +1,42 @@
 package main
 
 import (
-	"fmt"
-	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
-	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet/nodes"
-	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"net/http"
-	"net/url"
 )
 
 func RestApi(r *mux.Router) {
-	r.PathPrefix("/projects").Methods(http.MethodGet).HandlerFunc(listProjects)
-	r.PathPrefix("/projects").Methods(http.MethodPost).HandlerFunc(newProject)
-	r.PathPrefix("/projects/{id}").Methods(http.MethodPut).HandlerFunc(openProject)
+
+	//r.PathPrefix("/projects").Methods(http.MethodGet).HandlerFunc(listProjects)
+	//r.PathPrefix("/projects").Methods(http.MethodPost).HandlerFunc(newProject)
+	//r.PathPrefix("/projects/{id}").Methods(http.MethodPut).HandlerFunc(openProject)
 	r.PathPrefix("/projects").Methods(http.MethodPut).HandlerFunc(openProject)
-	r.PathPrefix("/projects/{id}").Methods(http.MethodDelete).HandlerFunc(deleteProject)
-	r.PathPrefix("/info").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.ExtensionInfo])
-	r.PathPrefix("/info").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.ExtensionInfo])
-	r.PathPrefix("/actions").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.ConditionalActionSet])
-	r.PathPrefix("/actions").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.ConditionalActionSet])
-	r.PathPrefix("/nodes").Methods(http.MethodGet).HandlerFunc(loadResource[nodes.Computer])
-	r.PathPrefix("/nodes").Methods(http.MethodPost).HandlerFunc(saveResource[nodes.Computer])
-	r.PathPrefix("/factions").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.Faction])
-	r.PathPrefix("/factions").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.Faction])
-	r.PathPrefix("/missions").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.Mission])
-	r.PathPrefix("/missions").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.Mission])
-	r.PathPrefix("/themes").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.Theme])
-	r.PathPrefix("/themes").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.Theme])
+	//r.PathPrefix("/projects/{id}").Methods(http.MethodDelete).HandlerFunc(deleteProject)
+	//r.PathPrefix("/info").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.ExtensionInfo])
+	//r.PathPrefix("/info").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.ExtensionInfo])
+	//r.PathPrefix("/actions").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.ConditionalActionSet])
+	//r.PathPrefix("/actions").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.ConditionalActionSet])
+	//r.PathPrefix("/nodes").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.Computer])
+	//r.PathPrefix("/nodes").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.Computer])
+	//r.PathPrefix("/factions").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.Faction])
+	//r.PathPrefix("/factions").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.Faction])
+	//r.PathPrefix("/missions").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.Mission])
+	//r.PathPrefix("/missions").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.Mission])
+	//r.PathPrefix("/themes").Methods(http.MethodGet).HandlerFunc(loadResource[hacknet.Theme])
+	//r.PathPrefix("/themes").Methods(http.MethodPost).HandlerFunc(saveResource[hacknet.Theme])
 }
 
-func listProjects(w http.ResponseWriter, r *http.Request) {
+func openProject(w http.ResponseWriter, r *http.Request) {
+	proj, err := LoadProject(r.URL.Query().Get("path"))
+	currentProject = proj
+	if err != nil {
+		httpError(w, http.StatusInternalServerError, err)
+	}
+
+	serialize(w, proj)
+}
+
+/*func listProjects(w http.ResponseWriter, r *http.Request) {
 	serialize(w, recentProjects)
 }
 
@@ -154,3 +160,4 @@ func saveResource[T interface{}](w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+*/

@@ -11,6 +11,7 @@ type Faction struct {
 	FactionName string             `xml:"name,attr"`
 	StartValue  int                `xml:"playerVal,attr"`
 	ActionSets  []FactionActionSet `xml:"Action"`
+	*ProjectResource
 }
 
 type FactionActionSet struct {

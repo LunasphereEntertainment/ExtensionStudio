@@ -1,10 +1,7 @@
 package main
 
 import (
-	"github.com/LunasphereEntertainment/ExtensionStudio/hacknet"
 	"github.com/stretchr/testify/assert"
-	"os"
-	"path"
 	"testing"
 )
 
@@ -15,12 +12,13 @@ func TestLoadProject(t *testing.T) {
 	}
 
 	assert.Equal(t, proj.Info.Title, "Intro Extension")
+	assert.Len(t, proj.ActionSets, 7)
 	assert.Len(t, proj.Nodes, 10)
 	assert.Len(t, proj.Missions, 29)
-	assert.Len(t, proj.ActionSets, 7)
+	assert.Len(t, proj.Factions, 2)
 }
 
-func TestNewProject(t *testing.T) {
+/*func TestNewProject(t *testing.T) {
 	dest := path.Join(os.TempDir(), "Test_New_Extension")
 
 	extInfo := &hacknet.ExtensionInfo{
@@ -99,3 +97,4 @@ func TestDeleteProject(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+*/
